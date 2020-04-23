@@ -1,3 +1,10 @@
+/*
+	ENTITY CLASS
+	
+	This class implements the monsters and objects that are contained in each game tile.
+	A game tile only has ONE entity.
+*/
+
 public abstract class Entity{
 	
 	// Entity variables
@@ -15,7 +22,13 @@ public abstract class Entity{
 		this.description = description;
 	}
 	
+	//	Get the description of the Entity
 	public String getDescription(){
 		return description;
+	}
+	
+	//	Get the type of the item
+	public String getType(){
+		return type;
 	}
 }

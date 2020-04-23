@@ -1,21 +1,16 @@
 /*
 	TILE CLASS
-	
-	Description:
-	This class implements a Tile object. A Tile object represents one grid on the MAP.
-	A tile contains at most one ENTITY (enemy, item) at start of game.
 */
 
 // Import packages
 import java.util.ArrayList;	// To implement the ArrayList
-import java.util.Iterator;
+import java.util.Iterator;	// Iterator for array list.
 
 public class Tile{
 	
 	// Variables
 	private int[] location = new int[2];	// Location of the Tile in [x,y] format.
 	private ArrayList<Entity> entities = new ArrayList<Entity>();	// ArrayList to contain the objects located in the tile.
-	private Entity ent;	// Entity (item, monster or player).
 	private boolean isValidTile = true;	// Is the tile a valid tile through which the player can go? Default is yes.
 	
 	/*	Constructor
@@ -43,9 +38,8 @@ public class Tile{
 	// Return the list of entities
 	public Entity[] getEntities(){
 		
-		//	If the entities list is empty then print a message notifying the user and return an empty array.
+		//	If the entities list is empty return an empty array.
 		if (entities.isEmpty()){
-			System.out.println("There are no entities of interest!");
 			return new Entity[]{};
 		}
 		
@@ -58,6 +52,7 @@ public class Tile{
 		
 		while(itr.hasNext()){
 			entityList[i] = (Entity) itr.next();
+			i++;
 		}
 		
 		return entityList;
@@ -76,5 +71,31 @@ public class Tile{
 	// Set tile to invalid
 	public void setIsValidGameTile(boolean value){
 		isValidTile = false;
+	}
+	
+	//	Print a description of the tile
+	public void printDescription(){
+		
+		// tileDescription
+		System.out.println("  DESCRIPTION OF CURRENT LOCATION");
+		
+		Entity[] entities = this.getEntities();	// Get entities in the tile
+		String[] entityTypes = new String[entities.length]; // Construct an array of Strings with each element being "<entityType>:<entity_description>"
+		
+		if(entities.length == 0){
+			System.out.println("  There is nothing of interest here!");
+		}
+		// Populate the string array
+		for(int i=0; i < entityTypes.length; i++){
+			if(!entities[i].getType().equals("player")){
+				System.out.print("  You have come across a "+entities[i].getDescription()+" "+entities[i].getType()+".\n");
+				
+				if(entities[i].getType().equals("item")){
+					System.out.println("  You have picked up and stored the item.");
+				}
+			}
+		}
+		
+		System.out.println("  Location: ("+location[0]+", "+location[1]+")");
 	}
 }
