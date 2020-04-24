@@ -8,8 +8,9 @@ public class Item extends Entity{
 	
 		private int healHP;
 		
-		public Item(String type,String description){
-			super(type,description);
+		public Item(String description){
+			// All Item objects will be of type "item".
+			super("item",description);
 		}
 	
 		public Item(String type,String description, int healHP){

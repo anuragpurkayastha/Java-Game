@@ -9,7 +9,7 @@ import java.util.Iterator;	// Iterator for array lists
 public class Player{
 
 	//	Variables
-	private int[] location;	// Location of the player
+	private int[] location;	// Location of the player, represented as [ROW,COL].
 	private int HP;	// Player health
 	private int maxDamage;	// Maximum damage player can incur on monsters
 	private ArrayList<Item> items;	// Items held by the player.
@@ -17,7 +17,7 @@ public class Player{
 	//	Constructor
 	public Player(){
 
-		location = new int[] {2,0};	// Initialise current location to (2,0)
+		location = new int[] {0,1};	// Initialise current location to (2,0)
 		HP = 100;	// Initial health of Player (maximum 100 HP)
 		maxDamage = 50;	// Initial maxDamage of player
 		items = new ArrayList<Item>();	// Initialise ArrayList of items.

@@ -5,6 +5,7 @@
 /*	Import packages	*/
 import java.util.ArrayList;	// Array list
 import java.util.Scanner;	// Scanner for user input
+import java.util.concurrent.ThreadLocalRandom;	// Random number generator
 
 public class HauntedHouseGame{
 
@@ -42,7 +43,7 @@ public class HauntedHouseGame{
 			for(int j = 0; j < map[0].length; j++){
 
 				// If at player location, then print X
-				if(i == playerLocation[1] && j == playerLocation[0]){
+				if(i == playerLocation[0] && j == playerLocation[1]){
 					System.out.print(" X ");
 				}
 				else if(i == (map.length-1) && j == (map[i].length - 1)){
@@ -62,12 +63,15 @@ public class HauntedHouseGame{
 		}
 	}
 
+	/*=======================================================================================================
+					MAIN METHOD
+	=========================================================================================================*/
 	public static void main(String[] args){
 
 		// Variables
-		final int max_x = 5;	// Max x-coordinate
-		final int max_y = 5;	// Max y-coordinate
-		Tile[][] houseMap = new Tile[max_x][max_y];	// The houseMap which is made of Tile objects
+		final int max_x = 5;	// Max x-coordinate (columns)
+		final int max_y = 5;	// Max y-coordinate (rows)
+		Tile[][] houseMap = new Tile[max_y][max_x];	// The houseMap which is made of Tile objects
 		Scanner userInput = new Scanner(System.in);	// Scanner to read user input
 		HauntedHouseGame game = new HauntedHouseGame();	// Create an instance of the game.
 		int userOption = 0;		// Variable to hold the userOption from the list of options in the menu
@@ -75,6 +79,10 @@ public class HauntedHouseGame{
 		int playerLocationX;	// X-coordinate of player's location
 		int playerLocationY;	// Y-coordinate of player's location
 		Player mainCharacter = new Player();	// Create a player
+		Monster currentMonster = null;		// Monster in the current tile (if any).
+		int monsterHP;		// Monster's HP
+		int randomNumber;	// Random number to use in fights
+		int maxDamageThreshold;	// To use in fights. if the random number is less than threshold then use max damage.
 
 		/*#######################	GAME SETUP	#######################################################	*/
 		// Initialise the houseMap with Tile objects.
@@ -110,11 +118,14 @@ public class HauntedHouseGame{
 		// Add an item or monster to the specified tiles according to the game map.
 
 		//		ITEMS
-		houseMap[0][0].addEntity(new Item("item","potion"));
-		houseMap[4][0].addEntity(new Item("item","lamp"));
-		houseMap[0][2].addEntity(new Item("item","sword"));
-		houseMap[4][2].addEntity(new Item("item","key"));
-		houseMap[0][4].addEntity(new Item("item","potion"));
+		houseMap[0][0].addEntity(new Item("potion"));
+		houseMap[0][4].addEntity(new Item("lamp"));
+		houseMap[2][0].addEntity(new Item("sword"));
+		houseMap[2][4].addEntity(new Item("key"));
+		houseMap[4][0].addEntity(new Item("potion"));
+		
+		//		MONSTERS
+		houseMap[0][1].addEntity(new Monster("zombie",50,25));
 		/*#######################	End Game Setup	#######################################################	*/
 
 		//	Intro to the game
@@ -124,7 +135,7 @@ public class HauntedHouseGame{
 						+" You may encounter monsters lurking throughout the house on your way to the exit. Make sure to utilise any items"
 						+" you might come across to help you defeat the monsters. Good luck!\n");
 
-		// Play the game while user is still alive
+		// Play the game while user is still alive and user has not chosen to quit the game.
 		while(mainCharacter.isAlive() && !quitGame){
 
 			playerLocationX = mainCharacter.getLocation()[0];
@@ -138,11 +149,17 @@ public class HauntedHouseGame{
 			// Get the objects or monsters located in the current tile
 			Entity[] currentEntities = currentTile.getEntities();
 
-			if(currentEntities.length >0){
+			// If the currentTile has an entity, then process it.
+			if(currentEntities.length > 0){
 
 				// If the object in the current tile is an item, then pick up the item and store it.
 				if(currentEntities[0].getType().equals("item")){
 					mainCharacter.addItem((Item) currentEntities[0]);
+					currentTile.removeEntity(currentEntities[0]);	// Remove the item from the tile.
+				}
+				// Else if the object is a monster then cast it as a monster and set the currentMonster variable.
+				else if(currentEntities[0].getType().equals("monster")){
+					currentMonster = (Monster) currentEntities[0];
 				}
 			}
 
@@ -160,6 +177,8 @@ public class HauntedHouseGame{
 			catch (Exception e){
 				System.out.println("\n  Oops! You did not type in a valid number. Please enter an integer.");
 				userInput.next();
+				System.out.println("------------------------------------------------------------------");
+				continue;
 			}
 
 			if(userOption > 7 || userOption < 1){
@@ -169,7 +188,13 @@ public class HauntedHouseGame{
 			// Switch statement to decide next game step based on user option.
 			switch(userOption){
 				case 1:
-					System.out.println("  You have chosen to move north!");
+					// If there is a monster don't move
+					if(currentMonster != null){
+						System.out.println("  There is a monster! You have to defeat it!");
+					}
+					else{
+						System.out.println("  You have chosen to move north!");
+					}
 					break;
 				case 2:
 					System.out.println("  You have chosen to move east!");
@@ -192,7 +217,26 @@ public class HauntedHouseGame{
 					}
 					break;
 				case 6:
+					
+					if(currentMonster == null){
+						System.out.println("  There is no monster here!");
+						break;
+					}
 					System.out.println("  You have chosen to fight!");
+					
+					monsterHP = currentMonster.getHP();
+					
+					System.out.println("\n  Monster's HP: "+monsterHP);
+					
+					// Loop while player is alive and monster is alive.
+					while( mainCharacter.isAlive() && currentMonster.isAlive()){
+						randomNumber = ThreadLocalRandom.current().nextInt(10);
+						System.out.println("  Random number is: "+randomNumber);
+						currentMonster.setHP(0);
+					}
+					currentTile.removeEntity(currentMonster);
+					currentMonster = null;
+					System.out.println("  You have defeated the monster!");
 					break;
 				case 7:
 					System.out.println("  You have chosen to view the map!");
