@@ -13,18 +13,20 @@ public class Player{
 	private int HP;	// Player health
 	private int maxDamage;	// Maximum damage player can incur on monsters
 	private ArrayList<Item> items;	// Items held by the player.
+	private int maxDamageThreshold;	// Probability of player inflicting max damage.
 
 	//	Constructor
 	public Player(){
 
 		location = new int[] {0,1};	// Initialise current location to (2,0)
 		HP = 100;	// Initial health of Player (maximum 100 HP)
-		maxDamage = 50;	// Initial maxDamage of player
+		maxDamage = 25;	// Initial maxDamage of player
 		items = new ArrayList<Item>();	// Initialise ArrayList of items.
+		maxDamageThreshold = 7;
 	}
 
 	//	Get the current HP of the player
-	public int getCurrentHP(){
+	public int getHP(){
 		return HP;
 	}
 
@@ -110,7 +112,11 @@ public class Player{
 				return true;
 			}
 		}
-
 		return false;
+	}
+	
+	//	Get the maxDamageThreshold
+	public int getMaxDamageThreshold(){
+		return maxDamageThreshold;
 	}
 }

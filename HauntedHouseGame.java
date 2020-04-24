@@ -69,9 +69,9 @@ public class HauntedHouseGame{
 	public static void main(String[] args){
 
 		// Variables
-		final int max_x = 5;	// Max x-coordinate (columns)
-		final int max_y = 5;	// Max y-coordinate (rows)
-		Tile[][] houseMap = new Tile[max_y][max_x];	// The houseMap which is made of Tile objects
+		final int max_row = 5;	// Max row
+		final int max_col = 5;	// Max col
+		Tile[][] houseMap = new Tile[max_row][max_col];	// The houseMap which is made of Tile objects
 		Scanner userInput = new Scanner(System.in);	// Scanner to read user input
 		HauntedHouseGame game = new HauntedHouseGame();	// Create an instance of the game.
 		int userOption = 0;		// Variable to hold the userOption from the list of options in the menu
@@ -80,21 +80,20 @@ public class HauntedHouseGame{
 		int playerLocationY;	// Y-coordinate of player's location
 		Player mainCharacter = new Player();	// Create a player
 		Monster currentMonster = null;		// Monster in the current tile (if any).
-		int monsterHP;		// Monster's HP
-		int randomNumber;	// Random number to use in fights
-		int maxDamageThreshold;	// To use in fights. if the random number is less than threshold then use max damage.
+		int playerRandomNumber;	// Random number to use in fights
+		int monsterRandomNumber;	// Random number to use in fights
 
 		/*#######################	GAME SETUP	#######################################################	*/
 		// Initialise the houseMap with Tile objects.
 		// Loop through each index of the 2-D array and create a new Tile object with the location of each corresponding to the current index.
-		for(int i=0; i < max_x; i++){
-			for(int j=0; j < max_y; j++){
+		for(int i=0; i < max_row; i++){
+			for(int j=0; j < max_col; j++){
 				houseMap[i][j] = new Tile(i,j);
 			}
 		}
 
 		// Set the second row of the map (y=1) as valid tiles apart from the tile at (x=2,y=1) (hallway).
-		for(int i=0; i < max_x; i++){
+		for(int i=0; i < max_row; i++){
 			// If the index is x=2, then skip
 			if(i == 2){
 				continue;
@@ -105,7 +104,7 @@ public class HauntedHouseGame{
 		}
 
 		// Set the fourth row of the map (y=3) as valid tiles apart from the tile at (x=2,y=3) (hallway).
-		for(int i=0; i < max_x; i++){
+		for(int i=0; i < max_row; i++){
 			// If the index is x=2, then skip
 			if(i == 2){
 				continue;
@@ -125,7 +124,7 @@ public class HauntedHouseGame{
 		houseMap[4][0].addEntity(new Item("potion"));
 		
 		//		MONSTERS
-		houseMap[0][1].addEntity(new Monster("zombie",50,25));
+		houseMap[0][1].addEntity(new Monster("zombie",50,25,6));
 		/*#######################	End Game Setup	#######################################################	*/
 
 		//	Intro to the game
@@ -181,7 +180,7 @@ public class HauntedHouseGame{
 				continue;
 			}
 
-			if(userOption > 7 || userOption < 1){
+			if(userOption > 8 || userOption < 1){
 				System.out.println("\n  Oops! You chose an option that doesn't exist! Please try again.");
 			}
 
@@ -210,7 +209,7 @@ public class HauntedHouseGame{
 
 					// Look through the items character is carrying to see if there is a potion
 					if(mainCharacter.hasItem("potion")){
-						mainCharacter.setHP(mainCharacter.getCurrentHP() + 30);
+						mainCharacter.setHP(mainCharacter.getHP() + 30);
 					}
 					else{
 						System.out.println("  Sorry, you don't have a potion!");
@@ -224,15 +223,34 @@ public class HauntedHouseGame{
 					}
 					System.out.println("  You have chosen to fight!");
 					
-					monsterHP = currentMonster.getHP();
-					
-					System.out.println("\n  Monster's HP: "+monsterHP);
 					
 					// Loop while player is alive and monster is alive.
 					while( mainCharacter.isAlive() && currentMonster.isAlive()){
-						randomNumber = ThreadLocalRandom.current().nextInt(10);
-						System.out.println("  Random number is: "+randomNumber);
-						currentMonster.setHP(0);
+						
+						System.out.println("\n  Monster's HP: "+currentMonster.getHP());
+						System.out.println("  Your HP: "+mainCharacter.getHP());
+						
+						// Players turn
+						playerRandomNumber = ThreadLocalRandom.current().nextInt(10);
+						System.out.println("  Player's random number is: "+playerRandomNumber);
+						if(playerRandomNumber < mainCharacter.getMaxDamageThreshold()){
+							System.out.println("  You hit the monster with damage of "+mainCharacter.getMaxDamage()+"HP!");
+							currentMonster.setHP(currentMonster.getHP() - mainCharacter.getMaxDamage());
+						}
+						else{
+							System.out.println("  You missed!");
+						}
+						
+						// Monster's turn
+						monsterRandomNumber = ThreadLocalRandom.current().nextInt(10);
+						System.out.println("  Monster's random number is: "+monsterRandomNumber);
+						if(monsterRandomNumber < currentMonster.getMaxDamageThreshold()){
+							System.out.println("  Monster hit you with damage of "+currentMonster.getMaxDamage()+"HP!");
+							mainCharacter.setHP(mainCharacter.getHP() - currentMonster.getMaxDamage());
+						}
+						else{
+							System.out.println("  Monster missed!");
+						}
 					}
 					currentTile.removeEntity(currentMonster);
 					currentMonster = null;
