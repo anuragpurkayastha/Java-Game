@@ -18,7 +18,7 @@ public class Player{
 	//	Constructor
 	public Player(){
 
-		location = new int[] {0,1};	// Initialise current location to (2,0)
+		location = new int[] {0,2};	// Initialise current location to (0,2)
 		HP = 100;	// Initial health of Player (maximum 100 HP)
 		maxDamage = 25;	// Initial maxDamage of player
 		items = new ArrayList<Item>();	// Initialise ArrayList of items.
@@ -50,13 +50,18 @@ public class Player{
 		maxDamage = newMaxDamage;
 	}
 
-	//	Get the location of the player
+	//	Get the location of the player in [row, column] format.
 	public int[] getLocation(){
 		return location;
 	}
+	
+	public void setLocation(int row, int col){
+		location[0] = row;
+		location[1] = col;
+	}
 
 	//	Print the current stats of the player
-	public void getCurrentStats(){
+	public void getStats(){
 		System.out.println("\n	HP: "+HP);
 		System.out.println("	maxDamage: "+maxDamage);
 		System.out.println("	Location: ("+location[0]+", "+location[1]+")");
@@ -73,6 +78,24 @@ public class Player{
 	//	Add an item to the array list.
 	public void addItem(Item it){
 		items.add(it);
+	}
+	
+	//	Remove an item from the array with item description specified by itemDesc.
+	public void removeItem(String itemDesc){
+		
+		// 	Iterate through the array list
+		Iterator itr = items.iterator();
+		Item it;	// Temporary variable
+		
+		//	Loop through all the items
+		while(itr.hasNext()){
+			it = (Item) itr.next();
+			
+			if(it.getDescription().equals("potion")){
+				items.remove(it);
+				break;
+			}
+		}
 	}
 
 	//  Get a list of the current items
@@ -118,5 +141,10 @@ public class Player{
 	//	Get the maxDamageThreshold
 	public int getMaxDamageThreshold(){
 		return maxDamageThreshold;
+	}
+	
+	//	Set the max damage threshold.
+	public void setMaxDamageThreshold(int newThres){
+		maxDamageThreshold = newThres;
 	}
 }

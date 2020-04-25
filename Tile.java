@@ -11,18 +11,19 @@ public class Tile{
 	// Variables
 	private int[] location = new int[2];	// Location of the Tile in [x,y] format.
 	private ArrayList<Entity> entities = new ArrayList<Entity>();	// ArrayList to contain the objects located in the tile.
-	private boolean isValidTile = true;	// Is the tile a valid tile through which the player can go? Default is yes.
+	private boolean isValidTile;	// Is the tile a valid tile through which the player can go? Default is yes.
 	
 	/*	Constructor
 	
 		Arguments:
-			- int x: x-coordinate of the tile
-			- int y: y-coordinate of the tile	*/
-	public Tile(int x,int y){
+			- int row: row of the tile
+			- int col: column of the tile	*/
+	public Tile(int row,int col){
 		
 		// Initialise the Tile object with the initial co-ordinates.
-		location[0] = x;
-		location[1] = y;
+		location[0] = row;
+		location[1] = col;
+		isValidTile = true;	//	Tile is valid by default.
 	}
 	
 	// Add an Entity object (item, enemy or player) to the tile
@@ -43,16 +44,18 @@ public class Tile{
 			return new Entity[]{};
 		}
 		
-		// Otherwise, if the tile has entities then print convert each object from the ArrayList to Entity class.
+		// Otherwise, if the tile has entities then convert each object from the ArrayList to Entity class.
 		Entity[] entityList=new Entity[entities.size()];
-		int i=0;
+		int i=0;	// Index of current entity object in entityList array.
 		
 		//	Iterate through the entities.
 		Iterator itr = entities.iterator();
 		
+		//	While there is a next entity in the entities array list, then convert each one into an Entity object 
+		//	and add it to the entityList array.
 		while(itr.hasNext()){
 			entityList[i] = (Entity) itr.next();
-			i++;
+			i++;	// Next index of entityList
 		}
 		
 		return entityList;
@@ -63,13 +66,14 @@ public class Tile{
 		return location;
 	}
 	
+	
 	// Return to check if the tile is a valid game tile
 	public boolean isValidGameTile(){
 		return isValidTile;
 	}
 	
 	// Set tile to invalid
-	public void setIsValidGameTile(boolean value){
+	public void setInvalidGameTile(){
 		isValidTile = false;
 	}
 	
