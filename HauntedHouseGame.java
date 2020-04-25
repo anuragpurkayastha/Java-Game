@@ -220,7 +220,15 @@ public class HauntedHouseGame{
 						
 						// First check if the tile is out of bounds and indices are valid. Since moving north, just check row.
 						if(((currentTileRow + 1) < max_row) && houseMap[currentTileRow + 1][currentTileCol].isValidGameTile()){
-							mainCharacter.setLocation(currentTileRow + 1, currentTileCol);
+							if((currentTileRow + 1) == 1 && currentTileCol == 2){
+								/*		CHECK THIS!!!	*/
+								if(mainCharacter.hasItem("lamp")){
+									mainCharacter.setLocation(currentTileRow + 1, currentTileCol);
+								}
+							}
+							else{
+								System.out.println("  You don't have the lamp!");
+							}
 						}
 						else{
 							System.out.println("\n  You can't move there!");
