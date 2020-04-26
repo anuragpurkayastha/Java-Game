@@ -62,17 +62,21 @@ public class Player{
 
 	//	Print the current stats of the player
 	public void getStats(){
-		System.out.println("\n	HP: "+HP);
-		System.out.println("	maxDamage: "+maxDamage);
-		System.out.println("	Location: ("+location[0]+", "+location[1]+")");
-		System.out.print("    	Items: ");
+		System.out.println("\n    ------------------------------------------");
+		System.out.println("    | HP:                  " + HP + "HP");
+		System.out.println("    ------------------------------------------");
+		System.out.println("    | Maximum damage:      " + maxDamage + "HP");
+		System.out.println("    ------------------------------------------");
+		System.out.println("    | Current Location:   ("+location[0]+", "+location[1]+")");
+		System.out.println("    ------------------------------------------");
+		System.out.print("    | Items:               ");
 
 		Item[] itemList = this.getItemList();
 
 		for(int i=0; i < itemList.length; i++){
 			System.out.print(itemList[i].getDescription()+" ");
 		}
-		System.out.println("");
+		System.out.println("    ------------------------------------------");
 	}
 
 	//	Add an item to the array list.
@@ -103,7 +107,7 @@ public class Player{
 
 		//	If the items list is empty then print a message notifying the user and return an empty array.
 		if (items.isEmpty()){
-			System.out.println("  None");
+			System.out.println("None");
 			return new Item[]{};
 		}
 

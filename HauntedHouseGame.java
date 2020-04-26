@@ -85,7 +85,6 @@ public class HauntedHouseGame{
 		int[] tileToMoveTo;			// 	Tile to move to when moving.
 		int currentTileCol;			//	Column co-ordinate of current tile
 		int currentTileRow;			//	Row co-ordinate of current tile
-		int roundNumber = 1;			//	Round number used in fights
 
 		/*#######################	GAME SETUP	#######################################################	*/
 		// Initialise the houseMap with Tile objects.
@@ -141,8 +140,8 @@ public class HauntedHouseGame{
 		houseMap[0][3].addEntity(new Monster("zombie", 50, 25, 6));
 		houseMap[2][1].addEntity(new Monster("skeleton", 75, 30, 7));	// 	Row 2
 		houseMap[2][3].addEntity(new Monster("vampire", 75, 30, 7));
-		houseMap[2][3].addEntity(new Monster("vampire", 100, 35, 8));	//	Row 4
-		houseMap[2][3].addEntity(new Monster("vampire", 100, 35, 8));	//	Row 4
+		houseMap[4][1].addEntity(new Monster("ghost", 100, 35, 8));	//	Row 4
+		houseMap[4][3].addEntity(new Monster("zombie", 100, 35, 8));	//	Row 4
 		/*#######################	End Game Setup	#######################################################	*/
 
 		//	Intro to the game
@@ -173,6 +172,13 @@ public class HauntedHouseGame{
 				if(currentEntities[0].getType().equals("item")){
 					mainCharacter.addItem((Item) currentEntities[0]);
 					currentTile.removeEntity(currentEntities[0]);	// Remove the item from the tile.
+					
+					//	If the item is a sword, then increase the maximum damage statistic to 75HP.
+					if(currentEntities[0].getDescription().equals("sword")){
+						System.out.println("\n  Your maximum damage has increased to 75HP!");
+						mainCharacter.setMaxDamage(75);
+						mainCharacter.setMaxDamageThreshold(9);	//	And also increase the maximum damage threshold to 9.
+					}
 				}
 				// Else if the entity object is a monster then cast it as a monster and set the currentMonster variable.
 				else if(currentEntities[0].getType().equals("monster")){
@@ -220,14 +226,40 @@ public class HauntedHouseGame{
 						
 						// First check if the tile is out of bounds and indices are valid. Since moving north, just check row.
 						if(((currentTileRow + 1) < max_row) && houseMap[currentTileRow + 1][currentTileCol].isValidGameTile()){
-							if((currentTileRow + 1) == 1 && currentTileCol == 2){
-								/*		CHECK THIS!!!	*/
-								if(mainCharacter.hasItem("lamp")){
-									mainCharacter.setLocation(currentTileRow + 1, currentTileCol);
+							
+							//	Hallways located at [1,2] and [3,2] require items to pass through. Check each one.
+							
+							// Check on column 2.
+							if(currentTileCol == 2){
+								// 	Switch case statement to check the new row co-ordinate.
+								switch(currentTileRow + 1){
+									// 	Hallway 1 at [1,2] - requires a lamp
+									case 1:
+										// 	If the player has the lamp item, then update the location of the player.
+										if(mainCharacter.hasItem("lamp")){
+											mainCharacter.setLocation(currentTileRow + 1, currentTileCol);
+										}
+										//	Else display an error message and do nothing.
+										else{
+											System.out.println("  You don't have a lamp! This dark hallway requires a lamp to get through!");
+										}
+										break;
+									// 	Hallway 2 at [3,2]- requires a key
+									case 3:
+										// 	If the player has the key item, then update the location of the player.
+										if(mainCharacter.hasItem("key")){
+											mainCharacter.setLocation(currentTileRow + 1, currentTileCol);
+										}
+										//	Else display an error message and do nothing.
+										else{
+											System.out.println("  You don't have a key! This dark hallway requires a key to open the door!");
+										}	
+										break;
+									//	Default is to update the location if new tile is not a hallway.
+									default:
+										mainCharacter.setLocation(currentTileRow + 1, currentTileCol);
+										break;
 								}
-							}
-							else{
-								System.out.println("  You don't have the lamp!");
 							}
 						}
 						else{
@@ -320,42 +352,43 @@ public class HauntedHouseGame{
 					}
 					System.out.println("  You have chosen to fight!");
 					
-					// If monster is alive.
-					if ( /*mainCharacter.isAlive() &&*/ currentMonster.isAlive()){
+					// If monster is alive, then character has to fight and defeat it.
+					if (currentMonster.isAlive()){
 						
-						System.out.println("\n  ROUND " + roundNumber);
+						System.out.println("\n  FIGHT ROUND");
 						System.out.println("  Monster's HP: " + currentMonster.getHP());
 						System.out.println("  Your HP: " + mainCharacter.getHP());
 						
 						// Players turn
-						playerRandomNumber = ThreadLocalRandom.current().nextInt(10);
-						//System.out.println("  Player's random number is: "+playerRandomNumber);
+						playerRandomNumber = ThreadLocalRandom.current().nextInt(10);	//	Generate the player's random number.
+
 						if(playerRandomNumber < mainCharacter.getMaxDamageThreshold()){
 							System.out.println("  You hit the monster with damage of " + mainCharacter.getMaxDamage()+"HP!");
 							currentMonster.setHP(currentMonster.getHP() - mainCharacter.getMaxDamage());
+							
+							// If the player's hit has killed the monster, then remove the monster from the tile and notify the user that they have defeated the monster.
+							if(!currentMonster.isAlive()){
+								System.out.println("  You have defeated the monster!");
+								currentTile.removeEntity(currentMonster);
+								currentMonster = null;
+							}
 						}
 						else{
 							System.out.println("  You missed!");
 						}
 						
-						// Monster's turn
-						monsterRandomNumber = ThreadLocalRandom.current().nextInt(10);
-						//System.out.println("  Monster's random number is: "+monsterRandomNumber);
-						if(monsterRandomNumber < currentMonster.getMaxDamageThreshold()){
-							System.out.println("  Monster hit you with damage of " + currentMonster.getMaxDamage()+"HP!");
-							mainCharacter.setHP(mainCharacter.getHP() - currentMonster.getMaxDamage());
+						// Monster's turn, if it is still alive.
+						if(currentMonster != null){
+							monsterRandomNumber = ThreadLocalRandom.current().nextInt(10);	//	Generate the monster's random number
+
+							if(monsterRandomNumber < currentMonster.getMaxDamageThreshold()){
+								System.out.println("  Monster hit you with damage of " + currentMonster.getMaxDamage()+"HP!");
+								mainCharacter.setHP(mainCharacter.getHP() - currentMonster.getMaxDamage());
+							}
+							else{
+								System.out.println("  Monster missed!");
+							}
 						}
-						else{
-							System.out.println("  Monster missed!");
-						}
-						
-						roundNumber++;
-					}
-					else{
-						currentTile.removeEntity(currentMonster);
-						currentMonster = null;
-						System.out.println("  You have defeated the monster!");
-						roundNumber = 1;
 					}
 					break;
 				case 7:
@@ -370,12 +403,15 @@ public class HauntedHouseGame{
 				default:
 					break;
 			}
-
+			
+			/*		TRY TO IMPLEMENT		*/
+			//System.out.print("Press \"ENTER\" to continue...");
+			//userInput.nextLine();
 			System.out.println("==================================================================");
 		}
 		
 		if(!mainCharacter.isAlive()){
-			System.out.println("YOU DIED! :(");
+			System.out.println("\n		YOU DIED! BETTER LUCK NEXT TIME! :(");
 		}
 		else if(!quitGame){
 			System.out.println("\n  CONGRATULATIONS YOU MADE IT OUT ALIVE!!!! :D");

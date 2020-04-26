@@ -100,6 +100,6 @@ public class Tile{
 			}
 		}
 		
-		System.out.println("  Location: ("+location[0]+", "+location[1]+")");
+		//System.out.println("  Location: ("+location[0]+", "+location[1]+")");
 	}
 }
