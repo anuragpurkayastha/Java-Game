@@ -404,9 +404,13 @@ public class HauntedHouseGame{
 					break;
 			}
 			
-			/*		TRY TO IMPLEMENT		*/
-			//System.out.print("Press \"ENTER\" to continue...");
-			//userInput.nextLine();
+			//	Press enter to continue
+			System.out.print("\n  Press \"ENTER\" to continue...");
+			try{
+				System.in.read();
+			}
+			catch(Exception e){
+			}
 			System.out.println("==================================================================");
 		}
 		

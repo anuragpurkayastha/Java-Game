@@ -76,7 +76,7 @@ public class Player{
 		for(int i=0; i < itemList.length; i++){
 			System.out.print(itemList[i].getDescription()+" ");
 		}
-		System.out.println("    ------------------------------------------");
+		System.out.println("\n    ------------------------------------------");
 	}
 
 	//	Add an item to the array list.
