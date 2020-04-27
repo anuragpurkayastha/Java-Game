@@ -91,11 +91,13 @@ public class Player{
 		Iterator itr = items.iterator();
 		Item it;	// Temporary variable
 		
-		//	Loop through all the items
+		//	Loop through all the items.
 		while(itr.hasNext()){
 			it = (Item) itr.next();
 			
-			if(it.getDescription().equals("potion")){
+			//	If the description of the current item matches the given string ("itemDesc") then remove the item
+			//	from the list of items the player is carrying and exit.
+			if(it.getDescription().equals(itemDesc)){
 				items.remove(it);
 				break;
 			}
@@ -105,36 +107,37 @@ public class Player{
 	//  Get a list of the current items
 	public Item[] getItemList(){
 
-		//	If the items list is empty then print a message notifying the user and return an empty array.
+		//	If the items list is empty then return an empty array.
 		if (items.isEmpty()){
-			System.out.println("None");
 			return new Item[]{};
 		}
 
 		// Otherwise, if the tile has entities then print convert each object from the ArrayList to Entity class.
-		Item[] item_list=new Item[items.size()];
-		int i=0;
+		Item[] item_list=new Item[items.size()];	//	Create a new Item[] array of length equal to the length of the ArrayList items.
+		int i=0;	//	Variable to hold the index.
 
 		//	Iterate through the entities.
 		Iterator itr = items.iterator();
-
+		
+		//	Loop through all the items in the ArrayList.
 		while(itr.hasNext()){
-			item_list[i] = (Item) itr.next();
-			i++;
+			item_list[i] = (Item) itr.next();	//	Cast the current object in the ArrayList to an Item object.
+			i++;	//	Move to next index.
 		}
 
 		return item_list;
 	}
 
-	//	Check to see if player has an item
+	//	Check to see if player has an item with description matching "itemDesc".
 	public boolean hasItem(String itemDesc){
 
 		// Loop through the items array list.
 		Iterator itr = items.iterator();
 
 		while(itr.hasNext()){
-			Item currentItem = (Item) itr.next();
-
+			Item currentItem = (Item) itr.next();	//	The itr.next() returns an Iterator item. Cast it as an Item object.
+			
+			//	If the current item that is being looked at has the matching description, then return true (found).
 			if (currentItem.getDescription().equals(itemDesc)){
 				return true;
 			}

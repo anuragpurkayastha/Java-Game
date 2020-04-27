@@ -92,7 +92,7 @@ public class Tile{
 		// Populate the string array
 		for(int i=0; i < entityTypes.length; i++){
 			if(!entities[i].getType().equals("player")){
-				System.out.print("  You have come across a "+entities[i].getDescription()+" "+entities[i].getType()+"!\n");
+				System.out.print("  You have found a "+entities[i].getDescription()+" "+entities[i].getType()+"!\n");
 				
 				if(entities[i].getType().equals("item")){
 					System.out.println("  You have picked up and stored the item.");
