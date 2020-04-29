@@ -54,7 +54,7 @@ public class Player{
 	public int[] getLocation(){
 		return location;
 	}
-	
+
 	public void setLocation(int row, int col){
 		location[0] = row;
 		location[1] = col;
@@ -83,18 +83,18 @@ public class Player{
 	public void addItem(Item it){
 		items.add(it);
 	}
-	
+
 	//	Remove an item from the array with item description specified by itemDesc.
 	public void removeItem(String itemDesc){
-		
+
 		// 	Iterate through the array list
 		Iterator itr = items.iterator();
 		Item it;	// Temporary variable
-		
+
 		//	Loop through all the items.
 		while(itr.hasNext()){
 			it = (Item) itr.next();
-			
+
 			//	If the description of the current item matches the given string ("itemDesc") then remove the item
 			//	from the list of items the player is carrying and exit.
 			if(it.getDescription().equals(itemDesc)){
@@ -118,7 +118,7 @@ public class Player{
 
 		//	Iterate through the entities.
 		Iterator itr = items.iterator();
-		
+
 		//	Loop through all the items in the ArrayList.
 		while(itr.hasNext()){
 			item_list[i] = (Item) itr.next();	//	Cast the current object in the ArrayList to an Item object.
@@ -136,7 +136,7 @@ public class Player{
 
 		while(itr.hasNext()){
 			Item currentItem = (Item) itr.next();	//	The itr.next() returns an Iterator item. Cast it as an Item object.
-			
+
 			//	If the current item that is being looked at has the matching description, then return true (found).
 			if (currentItem.getDescription().equals(itemDesc)){
 				return true;
@@ -144,12 +144,12 @@ public class Player{
 		}
 		return false;
 	}
-	
+
 	//	Get the maxDamageThreshold
 	public int getMaxDamageThreshold(){
 		return maxDamageThreshold;
 	}
-	
+
 	//	Set the max damage threshold.
 	public void setMaxDamageThreshold(int newThres){
 		maxDamageThreshold = newThres;
