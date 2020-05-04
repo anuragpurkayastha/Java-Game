@@ -33,7 +33,7 @@ public class HauntedHouseGame{
 		System.out.println("\n  House Map\n");
 		//	Legend
 		System.out.print("  Legend:       1 - Game tile\n		0 - Empty tile\n		X - Current location\n"
-						+"      		W - Destination\n");
+						+"      		E - Destination\n");
 
 		/*	Loop through each row of the 2D matrix and print a "1" if the tile
 			is a valid game tile, 0 otherwise. */
@@ -53,7 +53,7 @@ public class HauntedHouseGame{
 				}
 				//	Else if at the "exit" location (which is the last element), then print "W".
 				else if(i == (map.length-1) && j == (map[i].length - 1)){
-					System.out.print(" W ");
+					System.out.print(" E ");
 				}
 				//	Else if at other locations, print a "1" or "0"
 				else{
@@ -163,12 +163,12 @@ public class HauntedHouseGame{
 
 		//	Intro to the game
 		System.out.println("\n		<<	THE HAUNTED HOUSE	>>");
-		System.out.println("\n  After spending the afternoon exploring a haunted house with some friends, you find yourself trapped inside."
+		System.out.println("\n  After spending the afternoon exploring a haunted house with some friends, you find yourself trapped inside alone."
 						+" You hear weird noises throughout the house. Your mission is to find the way out of the house to safety."
 						+" You may encounter monsters lurking throughout the house on your way to the exit. Make sure to utilise any items"
 						+" you might come across to help you defeat the monsters. Good luck!\n");
 
-		System.out.println("  A map of the house is shown below. Your objective is to get to the exit marked 'W'. Your current position is shown by the 'X' on the map. Areas marked '1' are areas where you can move to and areas marked '0' are inaccessible. You can view this map again by selecting the appropriate menu item on the game menu.");
+		System.out.println("  A map of the house is shown below. Your objective is to get to the exit marked 'E'. Your current position is shown by the 'X' on the map. Areas marked '1' are areas where you can move to and areas marked '0' are inaccessible. You can view this map again by selecting the appropriate menu item on the game menu.");
 
 		//	Print the game map at the start.
 		game.printGameMap(houseMap, mainCharacter);
