@@ -397,13 +397,13 @@ public class HauntedHouseGame{
 						break;
 					//	6. Fight
 					case 6:
+						System.out.println("  You have chosen to fight!");
 						if(currentMonster == null){
 							System.out.println("  There is no monster here!");
 							break;
 						}
-						System.out.println("  You have chosen to fight!");
 
-						// If monster is alive, then character has to fight and defeat it.
+						// If monster is alive, then character can fight and defeat it.
 						if (currentMonster.isAlive()){
 
 							//	Print the HP stats of player and monster
@@ -436,7 +436,7 @@ public class HauntedHouseGame{
 							}
 
 							// Monster's turn, if it is still alive.
-							if(currentMonster != null){
+							if(currentMonster != null && currentMonster.isAlive()){
 								//	Generate the monster's random number
 								fightRandomNumber = ThreadLocalRandom.current().nextInt(10);
 
@@ -472,7 +472,7 @@ public class HauntedHouseGame{
 
 		/*	END GAME STATES 	*/
 
-		//	If player is still alive.
+		//	If player is dead.
 		if(!mainCharacter.isAlive()){
 			System.out.println("\n		YOU DIED! BETTER LUCK NEXT TIME!\n");
 		}
