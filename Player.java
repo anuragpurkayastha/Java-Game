@@ -61,22 +61,22 @@ public class Player{
 	}
 
 	//	Print the current stats of the player
-	public void getStats(){
-		System.out.println("\n    ------------------------------------------");
-		System.out.println("    | HP:                  " + HP + "HP");
-		System.out.println("    ------------------------------------------");
-		System.out.println("    | Maximum damage:      " + maxDamage + "HP");
-		System.out.println("    ------------------------------------------");
-		System.out.println("    | Current Location:   ("+location[0]+", "+location[1]+")");
-		System.out.println("    ------------------------------------------");
-		System.out.print("    | Items:               ");
+	public void printStats(){
+		System.out.println("\n\t\t------------------------------------------");
+		System.out.println("\t\t| HP:                  " + HP + "HP");
+		System.out.println("\t\t------------------------------------------");
+		System.out.println("\t\t| Maximum damage:      " + maxDamage + "HP");
+		System.out.println("\t\t------------------------------------------");
+		System.out.println("\t\t| Current Location:   ("+location[0]+", "+location[1]+")");
+		System.out.println("\t\t------------------------------------------");
+		System.out.print("\t\t| Items:               ");
 
 		Item[] itemList = this.getItemList();
 
 		for(int i=0; i < itemList.length; i++){
 			System.out.print(itemList[i].getDescription()+" ");
 		}
-		System.out.println("\n    ------------------------------------------");
+		System.out.println("\n\t\t------------------------------------------");
 	}
 
 	//	Add an item to the array list.

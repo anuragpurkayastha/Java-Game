@@ -30,15 +30,14 @@ public class HauntedHouseGame{
 		int[] playerLocation = player.getLocation();
 
 		//	Map title
-		System.out.println("\n  House Map\n");
+		System.out.println("\n\tHouse Map\n");
 		//	Legend
-		System.out.print("  Legend:       1 - Game tile\n		0 - Empty tile\n		X - Current location\n"
-						+"      		E - Destination\n");
+		System.out.print("  Legend:\t1 - Game tile\n\t\t0 - Empty tile\n\t\tX - Current location\n\t\tE - Destination\n");
 
 		/*	Loop through each row of the 2D matrix and print a "1" if the tile
 			is a valid game tile, 0 otherwise. */
 			System.out.println("");
-			System.out.print(" ");
+			System.out.print("\t");
 
 		// Loop through each row. Since the map is such that the bottom row is the first element,
 		// start from the array at the last index of the 2D array.
@@ -66,7 +65,7 @@ public class HauntedHouseGame{
 					}
 				}
 			}
-			System.out.print("\n ");
+			System.out.print("\n\t");
 		}
 	}
 
@@ -162,13 +161,13 @@ public class HauntedHouseGame{
 		/*#######################	End Game Setup	#######################################################	*/
 
 		//	Intro to the game
-		System.out.println("\n		<<	THE HAUNTED HOUSE	>>");
-		System.out.println("\n  After spending the afternoon exploring a haunted house with some friends, you find yourself trapped inside alone."
+		System.out.println("\n\t\t\t\t<<	THE HAUNTED HOUSE	>>");
+		System.out.println("\n\tAfter spending the afternoon exploring a haunted house with some friends, you find yourself trapped inside alone."
 						+" You hear weird noises throughout the house. Your mission is to find the way out of the house to safety."
 						+" You may encounter monsters lurking throughout the house on your way to the exit. Make sure to utilise any items"
 						+" you might come across to help you defeat the monsters. Good luck!\n");
 
-		System.out.println("  A map of the house is shown below. Your objective is to get to the exit marked 'E'. Your current position is shown by the 'X' on the map. Areas marked '1' are areas where you can move to and areas marked '0' are inaccessible. You can view this map again by selecting the appropriate menu item on the game menu.");
+		System.out.println("\tA map of the house is shown below. Your objective is to get to the exit marked 'E'. Your current position is shown by the 'X' on the map. Areas marked '1' are areas where you can move to and areas marked '0' are inaccessible. You can view this map again by selecting the appropriate menu item on the game menu.");
 
 		//	Print the game map at the start.
 		game.printGameMap(houseMap, mainCharacter);
@@ -234,7 +233,7 @@ public class HauntedHouseGame{
 
 				//	Print the player's current statistics.
 				System.out.println("\n  Your current statistics are: ");
-				mainCharacter.getStats();
+				mainCharacter.printStats();
 
 				//	Print the game menu
 				game.printGameMenu();
