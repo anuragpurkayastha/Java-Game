@@ -1,5 +1,8 @@
 /*
 	MAIN GAME FILE
+	
+	Name:	Anurag Purkayastha
+	Student ID:	s3805894
 */
 
 /*	Import packages	*/

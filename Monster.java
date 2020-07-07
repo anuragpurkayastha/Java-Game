@@ -1,5 +1,8 @@
 /*
 	MONSTER CLASS
+	
+	Name:	Anurag Purkayastha
+	Student ID:	s3805894
 */
 
 public class Monster extends Entity{

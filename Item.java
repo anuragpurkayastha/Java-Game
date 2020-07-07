@@ -1,6 +1,9 @@
 /*
 	ITEMS
 
+	Name:	Anurag Purkayastha
+	Student ID:	s3805894
+	
 	Description:
 		Creates Item objects (swords, keys, potions, lamps).
 */

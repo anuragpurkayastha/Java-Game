@@ -1,6 +1,9 @@
 /*
 	ENTITY CLASS
 
+	Name:	Anurag Purkayastha
+	Student ID:	s3805894
+	
 	This class implements the monsters and items that are contained in each game tile.
 	A game tile has only ONE entity.
 */
