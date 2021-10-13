@@ -8,3 +8,19 @@ Along the way the player will find items that will help them in their quest and 
 
 # How to Play
 The player will select an option from a text selection menu to take the next move.
+
+# Compilation
+
+Compile the program using the following command:
+
+```
+javac *.java
+```
+
+# Usage
+
+Run the game by executing the following command:
+
+```
+java Game.java
+```
