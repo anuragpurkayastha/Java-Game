@@ -22,5 +22,5 @@ javac *.java
 Run the game by executing the following command:
 
 ```
-java Game.java
+java HauntedHouseGame.java
 ```
